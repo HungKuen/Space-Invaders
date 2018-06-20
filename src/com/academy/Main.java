@@ -1,4 +1,4 @@
-package com.academy;
+/*package com.academy;
 
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -13,7 +13,7 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) throws IOException , InterruptedException {
-
+*/
 /* Terminal terminal = new DefaultTerminalFactory().createTerminal();
         Screen screen = new TerminalScreen(terminal);
         screen.startScreen();
