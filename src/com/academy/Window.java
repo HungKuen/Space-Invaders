@@ -14,9 +14,10 @@ import java.awt.event.KeyListener;
 
 public class Window implements KeyListener {
 
-
+    Game game;
 
     public Window(int width, int height, String title, Game game){
+        this.game = game;
 
         JFrame frame = new JFrame(title);
 
@@ -44,23 +45,18 @@ public class Window implements KeyListener {
 
     }
 
-
-
-
-
     @Override
 
     public void keyTyped(KeyEvent e) {
 
-
-
     }
-
-
 
     @Override
 
     public void keyPressed(KeyEvent e) {
+
+
+
 
         if (e.getKeyCode() == KeyEvent.VK_SPACE){
 
@@ -69,14 +65,14 @@ public class Window implements KeyListener {
         }
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            Player.setX(Player.getX()-1);
+            game.player.setX(game.player.getX()-1);
             System.out.println("Left"); // styra vänster
 
         }
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT){
-            Player.setX(Player.getX()+1);
-            System.out.println("Right"); // styra höger
+            game.player.setX(game.player.getX()+1);
+           System.out.println("Right"); // styra höger
 
         }
 

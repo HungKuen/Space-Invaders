@@ -23,16 +23,22 @@ package com.academy;
 import java.awt.*;
 
 public class Player {
-    protected int x,y;
-    protected ID id;
-    protected int velX, velY;
+    public int x ,y;
+    protected int id;
 
-
-   public Player(int x, int y,ID id){
-       this.x=x;
-       this.y=y;
-       this.id=id;
+    public Player(int x, int y,int id){
+       this.x = x;
+       this.y = y;
+       this.id = id;
    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
 
 
     public void tick() {
@@ -43,10 +49,7 @@ public class Player {
 
     }
 
-    public void setX(int x){
-       this.x=x;
-    }
-    public void setY(int y){
-       this.y=y;
-    }
+
+
+
 }
