@@ -39,8 +39,12 @@ public class Window implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT){
             System.out.println("Right");
         }
-/*      Komande patch
 
+ /*      Komande patch
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            System.out.println("Game Score");
+            System.out.println("Exit");
+        }
         if (e.getKeyCode() == KeyEvent.VK_UP){
             System.out.println("gamespeed up");
         }
