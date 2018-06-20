@@ -5,6 +5,8 @@ package com.academy;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import java.awt.event.KeyEvent;
 
@@ -76,22 +78,17 @@ public class Window implements KeyListener {
 
         }
 
-/*      Komande patch
-
-
-
+ /*      Komande patch
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            System.out.println("Game Score");
+            System.out.println("Exit");
+        }
         if (e.getKeyCode() == KeyEvent.VK_UP){
-
             System.out.println("gamespeed up");
-
         }
-
         if (e.getKeyCode() == KeyEvent.VK_DOWN){
-
             System.out.println("gamespeed down");
-
         }
-
 */
 
 
