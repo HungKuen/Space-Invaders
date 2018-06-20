@@ -1,4 +1,4 @@
-package com.academy;
+/*package com.academy;
 
 public class Flake {
     public int x;
@@ -9,3 +9,5 @@ public class Flake {
         this.y = y;
     }
 }
+*
+*/

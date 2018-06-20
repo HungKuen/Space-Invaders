@@ -1,4 +1,4 @@
-package com.academy;
+/*package com.academy;
 
 public class Point {
 
@@ -19,3 +19,4 @@ public class Point {
         return y;
     }
 }
+*/

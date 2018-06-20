@@ -1,4 +1,4 @@
-package com.academy;
+/*package com.academy;
 
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
@@ -28,15 +28,14 @@ public class Snowflakes implements UI {
     }
 
     public void draw(List<Flake> shapes) throws IOException, InterruptedException {
-
-        /*          För att ändra bakgrundsfärgen och text samt textbackgrund
+*/        /*          För att ändra bakgrundsfärgen och text samt textbackgrund
          *
          *           TextGraphics screenGraphics = screen.newTextGraphics();
          *           screenGraphics.setBackgroundColor(TextColor.Indexed.fromRGB(255, 0, 0));
          *           screenGraphics.fill(' ');
          *           screenGraphics.setForegroundColor(TextColor.Indexed.fromRGB(0,255,255));
          */
-        while(true) {
+ /*       while(true) {
             screen.clear();
 
             for(Flake shape : shapes) {
@@ -51,5 +50,6 @@ public class Snowflakes implements UI {
         }
     }
 }
+*/
 
 

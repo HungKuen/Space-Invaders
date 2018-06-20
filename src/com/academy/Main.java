@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException , InterruptedException {
 
-    Terminal terminal = new DefaultTerminalFactory().createTerminal();
+/* Terminal terminal = new DefaultTerminalFactory().createTerminal();
         Screen screen = new TerminalScreen(terminal);
         screen.startScreen();
 
@@ -29,7 +29,7 @@ public class Main {
         snowflakes.draw(shapes);
     }
 }
-
+*/
 
 
 

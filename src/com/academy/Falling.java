@@ -1,4 +1,4 @@
-package com.academy;
+/*package com.academy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,3 +29,4 @@ public class Falling extends Shape{
         return points;
     }
 }
+*/
