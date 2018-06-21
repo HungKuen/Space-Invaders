@@ -1,4 +1,3 @@
-
 package com.academy;
 
 import java.awt.*;
