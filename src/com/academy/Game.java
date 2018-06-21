@@ -1,10 +1,15 @@
 package com.academy;
 
+import com.googlecode.lanterna.terminal.swing.TerminalScrollController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
+import java.util.List;
 
 public class Game extends Canvas implements Runnable{
 
@@ -15,6 +20,8 @@ public class Game extends Canvas implements Runnable{
     private Handler handler;
     public Player player;
     public Window window;
+    public List <Enemy> enemies = new ArrayList<>();
+    //public Enemy[] enemies;
 
     public Game(){
     //    handler = new Handler();
@@ -24,7 +31,29 @@ public class Game extends Canvas implements Runnable{
 
         player = new Player(WIDTH/2,HEIGHT-60,1);
 
-    }
+
+
+        Random rand = new Random();
+        for (int i=0; i<10; i++) {
+            enemies.add(new Enemy(rand.nextInt(WIDTH-30),30));
+        }
+
+        /*enemies = new Enemy[10];
+
+        int ax =10;
+        int ay =10;
+
+        for(int i=0; i<enemies.length; i++){
+            enemies[i] =new Enemy(ax,ay);
+            ax +=40;
+            if (i==4){
+                ax=10;
+                ay+=40;
+            }*/
+
+        }
+
+
     public synchronized void start() {
         thread = new Thread(this);
         thread.start();
@@ -40,7 +69,7 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
-    public void run() {
+    public void run() throws NullPointerException{
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
         double ns = 1000000000; // amount OfTicks
@@ -66,7 +95,7 @@ public class Game extends Canvas implements Runnable{
     }
 
 
-    private void render(){
+    private void render() throws NullPointerException{
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
             this.createBufferStrategy(3);
@@ -82,12 +111,17 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.white);
         g.fillRect(player.getX(),player.getY(),20,20 );
 
+        for(int i=0; i< enemies.size(); i++) {
+            g.setColor(Color.red);
+            g.fillRect(enemies.get(i).x, enemies.get(i).y, 20, 20);
+        }
+
 
         g.dispose();
         bs.show();
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws NullPointerException {
         new Game();
 
         }
