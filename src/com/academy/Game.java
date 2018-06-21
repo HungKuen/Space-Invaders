@@ -3,6 +3,8 @@ package com.academy;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 
@@ -15,6 +17,8 @@ public class Game extends Canvas implements Runnable{
     private Handler handler;
     public Player player;
     public Window window;
+    public Skott skott;
+    List<Skott> skottList = new ArrayList<>();
 
     public Game(){
     //    handler = new Handler();
@@ -22,7 +26,7 @@ public class Game extends Canvas implements Runnable{
 
         new Window(WIDTH, HEIGHT, "Project X Alpha", this);
 
-        player = new Player(WIDTH/2,HEIGHT-60,1);
+        this.player = new Player(WIDTH/2,HEIGHT-60,1);
 
     }
     public synchronized void start() {
@@ -80,7 +84,21 @@ public class Game extends Canvas implements Runnable{
         g.fillRect(0,0,WIDTH,HEIGHT);
 
         g.setColor(Color.white);
-        g.fillRect(player.getX(),player.getY(),20,20 );
+        g.fillRect(this.player.getX(), this.player.getY(),20,20 );
+
+
+        for(int i = skottList.size()-1; i >= 0; i--) {
+            Skott bullet = skottList.get(i);
+            bullet.update();
+            g.fillRect(bullet.getX(), bullet.getY(), 5, 10);
+            if(bullet.getY() < 0) {
+                skottList.remove(bullet);
+            }
+        }
+
+
+        System.out.println(skottList.size());
+
 
 
         g.dispose();

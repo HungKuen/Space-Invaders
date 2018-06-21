@@ -4,7 +4,8 @@ package com.academy;
 import java.awt.*;
 
 public class Player {
-    public int x ,y;
+    public int x;
+    public int y;
     protected int id;
 
     public Player(int x, int y,int id){
