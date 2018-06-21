@@ -59,20 +59,28 @@ public class Window implements KeyListener {
 
 
         if (e.getKeyCode() == KeyEvent.VK_SPACE){
+            
+
 
             System.out.println("Fire"); // kod för att skjuta
 
         }
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            game.player.setX(game.player.getX()-5);
-            System.out.println("Left"); // styra vänster
+            if(game.player.getX() >0) {
+                game.player.setX(game.player.getX() - 5);
+                System.out.println("Left"); // styra vänster
+                System.out.println(game.player.getX());
+            }
 
         }
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT){
-            game.player.setX(game.player.getX()+5);
-           System.out.println("Right"); // styra höger
+            if(game.player.getX() < Game.WIDTH-35) {
+                game.player.setX(game.player.getX() + 5);
+                System.out.println("Right"); // styra höger
+                System.out.println(game.player.getX());
+            }
 
         }
 
