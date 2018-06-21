@@ -36,8 +36,8 @@ public class Game extends Canvas implements Runnable{
 
 
         Random rand = new Random();
-        for (int i=0; i<10; i++) {
-            enemies.add(new Enemy(rand.nextInt(WIDTH-30),30));
+        for (int i=0; i<1000; i++) {
+            enemies.add(new Enemy(rand.nextInt(WIDTH-30),rand.nextInt(100000)-100000));
         }
 
         /*enemies = new Enemy[10];
@@ -85,6 +85,9 @@ public class Game extends Canvas implements Runnable{
                 render();
             frames ++;
 
+            for(int i=0; i< enemies.size(); i++) {
+                enemies.get(i).y++;
+            }
             try {
                 TimeUnit.MILLISECONDS.sleep(33);
             } catch (InterruptedException e) {
