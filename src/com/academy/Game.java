@@ -1,7 +1,9 @@
 package com.academy;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 
 public class Game extends Canvas implements Runnable{
@@ -12,6 +14,7 @@ public class Game extends Canvas implements Runnable{
 
     private Handler handler;
     public Player player;
+    public Window window;
 
     public Game(){
     //    handler = new Handler();
@@ -19,7 +22,7 @@ public class Game extends Canvas implements Runnable{
 
         new Window(WIDTH, HEIGHT, "Project X Alpha", this);
 
-        player = new Player(WIDTH/2,480,1);
+        player = new Player(WIDTH/2,HEIGHT-60,1);
 
     }
     public synchronized void start() {
@@ -46,28 +49,23 @@ public class Game extends Canvas implements Runnable{
         int frames = 0;
         while(running){
             long now = System.nanoTime();
-            delta += (now-lastTime); // ns
-            lastTime = now;
-            while(delta >=1){
-                tick();
-                delta--;
-            }
+
             if (running)
                 render();
             frames ++;
 
-            if (System.currentTimeMillis() -timer > 1000){
-                timer += 1000;
-                System.out.println("FPS: " +frames);
-                frames = 0;
+            try {
+                TimeUnit.MILLISECONDS.sleep(33);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
+
         }
         stop();
     }
 
-    private void tick(){
 
-    }
     private void render(){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
@@ -75,10 +73,15 @@ public class Game extends Canvas implements Runnable{
             return;
         }
 
+
         Graphics g = bs.getDrawGraphics();
 
         g.setColor(Color.black);
         g.fillRect(0,0,WIDTH,HEIGHT);
+
+        g.setColor(Color.white);
+        g.fillRect(player.getX(),player.getY(),20,20 );
+
 
         g.dispose();
         bs.show();

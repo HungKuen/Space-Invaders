@@ -58,8 +58,6 @@ public class Window implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
 
-
-
         if (e.getKeyCode() == KeyEvent.VK_SPACE){
 
             System.out.println("Fire"); // kod för att skjuta
@@ -67,13 +65,13 @@ public class Window implements KeyListener {
         }
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            game.player.setX(game.player.getX()-1);
+            game.player.setX(game.player.getX()-5);
             System.out.println("Left"); // styra vänster
 
         }
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT){
-            game.player.setX(game.player.getX()+1);
+            game.player.setX(game.player.getX()+5);
            System.out.println("Right"); // styra höger
 
         }

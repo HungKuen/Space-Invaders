@@ -21,6 +21,7 @@ public class Player {
         this.x = x;
     }
 
+    public int getY() {return y;}
 
     public void tick() {
 
