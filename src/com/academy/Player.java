@@ -23,11 +23,5 @@ public class Player {
 
     public int getY() {return y;}
 
-    public void tick() {
 
-    }
-
-    public void render(Graphics g){
-
-    }
 }

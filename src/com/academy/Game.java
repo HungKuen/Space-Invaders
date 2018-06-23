@@ -1,6 +1,5 @@
 package com.academy;
 
-import com.googlecode.lanterna.terminal.swing.TerminalScrollController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
+
 
 public class Game extends Canvas implements Runnable{
 
@@ -18,7 +17,6 @@ public class Game extends Canvas implements Runnable{
     private Thread thread;
     private boolean running = false;
 
-    private Handler handler;
     public Player player;
     public Window window;
 
@@ -26,8 +24,6 @@ public class Game extends Canvas implements Runnable{
     public List <Enemy> enemies = new ArrayList<>();
 
     public Game(){
-    //    handler = new Handler();
-       // this.addKeyListener(new KeyInput(handler));
 
         this.window = new Window(WIDTH, HEIGHT, "Project X Alpha", this);
         this.player = new Player(WIDTH/2,HEIGHT-60,1);
@@ -72,14 +68,10 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void run() throws NullPointerException{
-        long lastTime = System.nanoTime();
-        double amountOfTicks = 60.0;
-        double ns = 1000000000; // amount OfTicks
-        double delta =0;
-        long timer = System.currentTimeMillis();
+
         int frames = 0;
         while(running){
-            long now = System.nanoTime();
+
 
             if (running)
                 render();
@@ -127,14 +119,33 @@ public class Game extends Canvas implements Runnable{
         }
 
 
-        System.out.println(skottList.size());
+        //System.out.println(skottList.size());
+
+
+        int fiendewidth = 20;
+        int fiendeheight = 20;
 
 
         for(int i=0; i< enemies.size(); i++) {
             g.setColor(Color.red);
-            g.fillRect(enemies.get(i).x, enemies.get(i).y, 20, 20);
+            g.fillRect(enemies.get(i).x, enemies.get(i).y, fiendewidth, fiendeheight);
         }
 
+        int counter = 0;
+        for(int i = skottList.size()-1; i>= 0; i-- ){
+            Skott bullet = skottList.get(i);
+            for (int j = enemies.size()-1; j >= 0; j--){
+                Enemy fiende = enemies.get(j);
+
+                if (bullet.getX() >= fiende.getX() && bullet.getX() <= fiende.getX() + fiendewidth && bullet.getY() >= (fiende.getY()) && bullet.getY() <= fiende.getY() + fiendeheight ){
+                   enemies.remove(fiende);
+                    skottList.remove(bullet);
+                     counter++;
+                    System.out.println(counter);
+                }
+
+            }
+        }
 
         g.dispose();
         bs.show();

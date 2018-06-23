@@ -7,11 +7,6 @@ public class Enemy {
     public int x, y;
 
 
-    public Enemy (){
-
-    }
-
-
     public Enemy(int x, int y) {
         this.x = x;
         this.y = y;
@@ -30,13 +25,8 @@ public class Enemy {
         return y;
     }
 
-    public void tick() {
 
-    }
 
-    public void render(Graphics g) {
-
-    }
 
 }
 

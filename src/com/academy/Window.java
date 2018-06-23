@@ -16,7 +16,7 @@ import java.util.List;
 
 
 public class Window implements KeyListener {
-    Skott skott;
+
     Game game;
 
 
@@ -62,10 +62,7 @@ public class Window implements KeyListener {
 
         if (e.getKeyCode() == KeyEvent.VK_SPACE){
             game.skottList.add(new Skott(game.player.getX(),game.player.getY()));
-           /*skottList.add(new Skott(game.player.getX(),game.player.getY()));
 
-            System.out.println("Fire"); // kod för att skjuta
-            System.out.println(skottList);*/
         }
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
