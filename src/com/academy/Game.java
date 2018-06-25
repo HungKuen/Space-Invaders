@@ -137,15 +137,19 @@ public class Game extends Canvas implements Runnable{
             for (int j = enemies.size()-1; j >= 0; j--){
                 Enemy fiende = enemies.get(j);
 
-                if (bullet.getX() >= fiende.getX() && bullet.getX() <= fiende.getX() + fiendewidth && bullet.getY() >= (fiende.getY()) && bullet.getY() <= fiende.getY() + fiendeheight ){
+                if (bullet.getX() >= fiende.getX() && bullet.getX() <= fiende.getX() + fiendewidth && bullet.getY() >= (fiende.getY()) && bullet.getY() <= fiende.getY() + fiendeheight
+                        || bullet.getX()+4 >= fiende.getX() && bullet.getX()+4 <= fiende.getX() + fiendewidth && bullet.getY() >= (fiende.getY()) && bullet.getY() <= fiende.getY() + fiendeheight  ){
                    enemies.remove(fiende);
-                    skottList.remove(bullet);
-                     counter++;
-                    System.out.println(counter);
+                   skottList.remove(bullet);
+                   counter = counter +1;
+
+
                 }
 
             }
+
         }
+
 
         g.dispose();
         bs.show();
