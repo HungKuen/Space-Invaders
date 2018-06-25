@@ -19,7 +19,6 @@ public class Window {
     Skott skott;
     Game game;
 
-
     public Window(int width, int height, String title, Game game){
         this.game = game;
 
@@ -46,6 +45,4 @@ public class Window {
         game.start();
 
     }
-
-
 }

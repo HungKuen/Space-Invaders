@@ -14,6 +14,7 @@ public class Skott {
         this.y = y;
     }
 
+
     public void update() {
         this.y -= this.speed;
     }
