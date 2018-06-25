@@ -137,38 +137,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 skottList.remove(bullet);
             }
 
-            //Jämför alla skott med alla fiender på koordinater.
-            //Om fienden är 20pixlar bred måste vi kolla X och nästa 20 pixlar för träff.
 
-            for (int j =0; j < enemies.size(); j++){
-
-                if (bullet.getY() >= enemies.get(j).y){
-                    //System.out.println("rätt y");
-                    if (bullet.getY() <= enemies.get(j).y + 20){
-
-
-                        if (bullet.getX() >= enemies.get(j).x){
-                            //System.out.println("typ samma x");
-
-                            if (bullet.getX() <= enemies.get(j).x + 20){
-                                g.setColor(Color.orange);
-                                g.fillRect(enemies.get(j).x-5, enemies.get(j).y-5, 30, 30);
-                                skottList.remove(bullet);
-                                enemies.remove(j);
-                                score ++;
-
-
-
-
-
-                            }
-                        }
-                    }
-                }
-
-
-
-            }
 
         }
         int fiendewidth = 20;
@@ -179,7 +148,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             g.fillRect(enemies.get(i).x, enemies.get(i).y, fiendewidth, fiendeheight);
         }
 
-        int counter = 0;
+
         for(int i = skottList.size()-1; i>= 0; i-- ){
             Skott bullet = skottList.get(i);
             for (int j = enemies.size()-1; j >= 0; j--){
@@ -187,9 +156,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
                 if (bullet.getX() >= fiende.getX() && bullet.getX() <= fiende.getX() + fiendewidth && bullet.getY() >= (fiende.getY()) && bullet.getY() <= fiende.getY() + fiendeheight
                         || bullet.getX()+4 >= fiende.getX() && bullet.getX()+4 <= fiende.getX() + fiendewidth && bullet.getY() >= (fiende.getY()) && bullet.getY() <= fiende.getY() + fiendeheight  ){
+
+                    g.setColor(Color.orange);
+                    g.fillRect(enemies.get(j).x-5, enemies.get(j).y-5, 30, 30);
                    enemies.remove(fiende);
                    skottList.remove(bullet);
-                   counter = counter +1;
+                   score++;
 
 
                 }
