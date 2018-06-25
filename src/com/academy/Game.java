@@ -4,6 +4,8 @@ import com.googlecode.lanterna.terminal.swing.TerminalScrollController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,23 +13,31 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 
-public class Game extends Canvas implements Runnable{
+
+//EFtersom panelen får fokus direkt när man rör fönstret så kanske keylisternern bör ligga här?
+//Tror man kan köra panel.requestFocus för att få fokus direkt för att slippa klicka i fönstret då.
+
+public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final int WIDTH = 640;
     public static final int HEIGHT = WIDTH /12 *9;
     private Thread thread;
     private boolean running = false;
 
+    //Använd denna för att "flagga" att skeppet svänger medan den är true
+    private boolean steering = false;
+
     private Handler handler;
     public Player player;
     public Window window;
+    public int score = 0;
 
     List<Skott> skottList = new ArrayList<>();
     public List <Enemy> enemies = new ArrayList<>();
 
     public Game(){
     //    handler = new Handler();
-       // this.addKeyListener(new KeyInput(handler));
+        this.addKeyListener(this);
 
         this.window = new Window(WIDTH, HEIGHT, "Project X Alpha", this);
         this.player = new Player(WIDTH/2,HEIGHT-60,1);
@@ -116,6 +126,15 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.white);
         g.fillRect(this.player.getX(), this.player.getY(),20,20 );
 
+        Font monoFont = new Font("Monospaced", Font.BOLD
+                | Font.ITALIC, 20);
+        g.setFont(monoFont);
+        FontMetrics fm = g.getFontMetrics();
+        int w = fm.stringWidth("score");
+        int h = fm.getAscent();
+        g.drawString("score: " + score + "", 0, 20);
+
+
 
         for(int i = skottList.size()-1; i >= 0; i--) {
             Skott bullet = skottList.get(i);
@@ -124,17 +143,45 @@ public class Game extends Canvas implements Runnable{
             if(bullet.getY() < 0) {
                 skottList.remove(bullet);
             }
+
+            //Jämför alla skott med alla fiender på koordinater.
+            //Om fienden är 20pixlar bred måste vi kolla X och nästa 20 pixlar för träff.
+
+            for (int j =0; j < enemies.size(); j++){
+
+                if (bullet.getY() >= enemies.get(j).y){
+                    //System.out.println("rätt y");
+                    if (bullet.getY() <= enemies.get(j).y + 20){
+
+
+                        if (bullet.getX() >= enemies.get(j).x){
+                            //System.out.println("typ samma x");
+
+                            if (bullet.getX() <= enemies.get(j).x + 20){
+                                g.setColor(Color.orange);
+                                g.fillRect(enemies.get(j).x-5, enemies.get(j).y-5, 30, 30);
+                                skottList.remove(bullet);
+                                enemies.remove(j);
+                                score ++;
+
+
+
+                            }
+                        }
+                    }
+                }
+
+
+
+            }
+
         }
 
-
-        System.out.println(skottList.size());
-
-
+        //Den här funktionen kör över alla andra förändringar (på träff tex).
         for(int i=0; i< enemies.size(); i++) {
             g.setColor(Color.red);
             g.fillRect(enemies.get(i).x, enemies.get(i).y, 20, 20);
         }
-
 
         g.dispose();
         bs.show();
@@ -144,6 +191,62 @@ public class Game extends Canvas implements Runnable{
         new Game();
 
         }
+    public void keyTyped (KeyEvent e){
+    }
+    public void keyReleased(KeyEvent e){
+        System.out.println(e.getKeyCode());
+        if (e.getKeyCode() == 37 ){
+            System.out.println("realae");
+            this.steering = false;
+        }
+        if (e.getKeyCode() == 39) {
+            this.steering = false;
+        }
+    }
 
+    public void keyPressed(KeyEvent e) {
+
+        if (e.getKeyCode() == KeyEvent.VK_SPACE){
+            //lade till +10 så skottet hamnar i mitten av kuben
+            skottList.add(new Skott(player.getX()+10,player.getY()));
+
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+
+            if(player.getX() >0) {
+                player.setX(player.getX() - 5);
+                System.out.println("Left"); // styra vänster
+            }
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT){
+
+                if(player.getX() < Game.WIDTH-35) {
+                    player.setX(player.getX() + 5);
+
+                }
+
+           // if(player.getX() < Game.WIDTH-35) {
+             //   player.setX(player.getX() + 5);
+                //System.out.println("Right"); // styra höger
+            //}
+
+        }
+
+ /*      Komande patch
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            System.out.println("Game Score");
+            System.out.println("Exit");
+        }
+        if (e.getKeyCode() == KeyEvent.VK_UP){
+            System.out.println("gamespeed up");
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DOWN){
+            System.out.println("gamespeed down");
+        }
+*/
+
+    }
 
 }
