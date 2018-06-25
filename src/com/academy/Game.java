@@ -6,9 +6,12 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 
@@ -35,6 +38,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public Game(){
         this.addKeyListener(this);
+        this.setFocusable(true);
 
         this.window = new Window(WIDTH, HEIGHT, "Project X Alpha", this);
         this.player = new Player(WIDTH/2,HEIGHT-60,1);
@@ -84,8 +88,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
         while(running){
 
 
-            if (running)
-                render();
+            if (running) {
+                try {
+                    render();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             frames ++;
 
             for(int i=0; i< enemies.size(); i++) {
@@ -103,7 +114,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
 
-    private void render() throws NullPointerException{
+    private void render() throws NullPointerException, IOException, InterruptedException {
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
             this.createBufferStrategy(3);
@@ -113,14 +124,29 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.black);
-        g.fillRect(0,0,WIDTH,HEIGHT);
 
+        Image img = new ImageIcon("Images/Background640480.jpg").getImage();
+        Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
+        setPreferredSize(size);
+        setMinimumSize(size);
+        setMaximumSize(size);
+        setSize(size);
+        g.drawImage(img, 0, 0, null);
+
+
+
+
+        Image imgplayer = new ImageIcon("Images/skeppet10.png").getImage();
+        Dimension sizeplayer = new Dimension(img.getWidth(null), img.getHeight(null));
+        setPreferredSize(sizeplayer);
+        setMinimumSize(sizeplayer);
+        setMaximumSize(sizeplayer);
+        setSize(sizeplayer);
+        g.drawImage(imgplayer,this.player.getX(),this.player.getY(),null);
+
+
+        Font monoFont = new Font("Monospaced", Font.BOLD| Font.ITALIC, 20);
         g.setColor(Color.white);
-        g.fillRect(this.player.getX(), this.player.getY(),20,20 );
-
-        Font monoFont = new Font("Monospaced", Font.BOLD
-                | Font.ITALIC, 20);
         g.setFont(monoFont);
         FontMetrics fm = g.getFontMetrics();
         int w = fm.stringWidth("score");
@@ -129,10 +155,20 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 
 
+        Image imgskott = new ImageIcon("Images/skottet10.png").getImage();
+        Dimension sizeskott = new Dimension(img.getWidth(null), img.getHeight(null));
+        setPreferredSize(sizeskott);
+        setMinimumSize(sizeskott);
+        setMaximumSize(sizeskott);
+        setSize(sizeskott);
+
+
+
         for(int i = skottList.size()-1; i >= 0; i--) {
             Skott bullet = skottList.get(i);
             bullet.update();
-            g.fillRect(bullet.getX(), bullet.getY(), 5, 10);
+            g.drawImage(imgskott,bullet.getX(),bullet.getY(),null);
+
             if(bullet.getY() < 0) {
                 skottList.remove(bullet);
             }
@@ -142,10 +178,20 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
         int fiendewidth = 20;
         int fiendeheight = 20;
+
+        Image imgEnemy = new ImageIcon("Images/monster10.png").getImage();
+        Dimension sizeEnemy = new Dimension(img.getWidth(null), img.getHeight(null));
+        setPreferredSize(sizeEnemy);
+        setMinimumSize(sizeEnemy);
+        setMaximumSize(sizeEnemy);
+        setSize(sizeEnemy);
+
         //Den här funktionen kör över alla andra förändringar (på träff tex).
         for(int i=0; i< enemies.size(); i++) {
             g.setColor(Color.red);
-            g.fillRect(enemies.get(i).x, enemies.get(i).y, fiendewidth, fiendeheight);
+
+            g.drawImage(imgEnemy,enemies.get(i).x, enemies.get(i).y,null);
+
         }
 
 
@@ -157,19 +203,84 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 if (bullet.getX() >= fiende.getX() && bullet.getX() <= fiende.getX() + fiendewidth && bullet.getY() >= (fiende.getY()) && bullet.getY() <= fiende.getY() + fiendeheight
                         || bullet.getX()+4 >= fiende.getX() && bullet.getX()+4 <= fiende.getX() + fiendewidth && bullet.getY() >= (fiende.getY()) && bullet.getY() <= fiende.getY() + fiendeheight  ){
 
-                    g.setColor(Color.orange);
+                    g.setColor(Color.yellow);
                     g.fillRect(enemies.get(j).x-5, enemies.get(j).y-5, 30, 30);
                    enemies.remove(fiende);
                    skottList.remove(bullet);
-                   score++;
+                   score = score +10;
 
 
                 }
 
             }
 
-        }
+    }
+        for (int i = 0; i < enemies.size(); i++) {
+            if (enemies.get(i).getY() > player.getY()) {
 
+                g.setColor(Color.orange);
+                g.fillRect(player.getX() - 5, player.getY() - 5, 30, 30);
+
+                g.fillRect(player.getX() - 5, player.getY() - 5, 30, 30);
+                for (int k = 0; k < enemies.size(); k++) {
+                    g.setColor(Color.orange);
+                    g.fillRect(enemies.get(k).x - 5, enemies.get(k).y - 5, 30, 30);
+                }
+
+                g.setColor(Color.pink);
+                g.fillRect(player.getX() - 5, player.getY() - 5, 30, 30);
+
+
+                String name = JOptionPane.showInputDialog("Skriv in ditt namn");
+                List<String> HighScoreLista = new ArrayList<>();
+                HighScoreLista.add(name +" " +score );  // add score
+                BufferedWriter output = null;
+                try {
+                    File file = new File("./Highscore.txt");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                        System.out.println("Highscore skapades");
+                    } else {
+                        System.out.println(HighScoreLista);
+                        Scanner temp = new Scanner(new File("./Highscore.txt"));
+                        while (temp.hasNextLine()) {
+                            String line = temp.nextLine();
+                            System.out.println(line);
+                            HighScoreLista.add(line);
+                        }
+                    }
+                    Collections.sort(HighScoreLista, new Comparator<String>() {
+                        public int compare(String o1, String o2) {
+                            return extractInt(o1) - extractInt(o2);
+                        }
+
+                        int extractInt(String s) {
+                            String num = s.replaceAll("\\D", "");
+                            // return 0 if no digits found
+                            return num.isEmpty() ? 0 : Integer.parseInt(num);
+                        }
+                    });
+                    output = new BufferedWriter(new FileWriter(file));
+
+                    System.out.println(HighScoreLista);
+                    for (int l = HighScoreLista.size() - 1; l >= 0; l--) {
+                        output.write(HighScoreLista.get(l));
+                        output.newLine();
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (output != null) {
+                        output.close();
+                        TimeUnit.SECONDS.sleep(2);
+                        enemies.clear();
+
+                    }
+                }
+            }
+        }
         g.dispose();
         bs.show();
     }
@@ -214,10 +325,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
                 }
 
-           // if(player.getX() < Game.WIDTH-35) {
-             //   player.setX(player.getX() + 5);
-                //System.out.println("Right"); // styra höger
-            //}
 
         }
 
