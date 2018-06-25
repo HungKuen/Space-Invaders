@@ -12,7 +12,6 @@ public class Player {
        this.y = y;
        this.id = id;
    }
-
     public int getX() {
         return x;
     }
