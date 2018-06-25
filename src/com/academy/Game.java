@@ -1,6 +1,7 @@
 package com.academy;
 
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -71,6 +72,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
                 }
             }
             for (int i = 0; i < enemies.size(); i++) {
@@ -86,7 +89,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
 
-    private void render() throws NullPointerException, IOException, InterruptedException {
+    private void render() throws NullPointerException, IOException, InterruptedException, LineUnavailableException {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
             this.createBufferStrategy(3);
@@ -157,6 +160,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                         || bullet.getX() + 4 >= fiende.getX() && bullet.getX() + 4 <= fiende.getX() + fiendewidth && bullet.getY() >= (fiende.getY()) && bullet.getY() <= fiende.getY() + fiendeheight) {
                     g.setColor(Color.yellow);
                     g.fillRect(enemies.get(j).x - 5, enemies.get(j).y - 5, 30, 30);
+                    SoundUtils.tone(1000,10);
                     enemies.remove(fiende);
                     skottList.remove(bullet);
                     score = score + 10;
@@ -207,9 +211,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     output = new BufferedWriter(new FileWriter(file));
 
                     System.out.println(HighScoreLista);
+
                     for (int l = HighScoreLista.size() - 1; l >= 0; l--) {
                         output.write(HighScoreLista.get(l));
                         output.newLine();
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
